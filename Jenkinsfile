@@ -11,20 +11,21 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
-            // Scan code for bugs, vulnerabilities, code smells
-            steps {
-                withSonarQubeEnv('SonarQube') {
-                    sh '''
-                        sonar-scanner \
-                        -Dsonar.projectKey=myapp \
-                        -Dsonar.sources=. \
-                        -Dsonar.host.url=http://localhost:9000
-                    '''
-                }
+     stage('SonarQube Analysis') {
+    steps {
+        withSonarQubeEnv('SonarQube') {
+            script {
+                def scannerHome = tool 'SonarScanner'
+                sh """
+                    ${scannerHome}/bin/sonar-scanner \
+                    -Dsonar.projectKey=myapp \
+                    -Dsonar.sources=. \
+                    -Dsonar.host.url=http://localhost:9000
+                """
             }
         }
-
+    }
+}
         stage('OWASP Dependency Check') {
             // Scan libraries for known security vulnerabilities
             steps {
