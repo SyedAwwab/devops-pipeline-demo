@@ -26,10 +26,10 @@ pipeline {
         }
     }
 }
-     stage('OWASP Dependency Check') {
+stage('OWASP Dependency Check') {
     steps {
         catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
-            dependencyCheck additionalArguments: '--scan ./ --format ALL',
+            dependencyCheck additionalArguments: '--scan ./ --format ALL --nvdApiKey 5c504385-b16d-491a-9456-c5e1faaf4baa',
                             odcInstallation: 'OWASP-DC'
             dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
         }
